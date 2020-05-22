@@ -2,7 +2,7 @@ pytest-pinned
 ===============
 ![pinned](https://github.com/freol35241/pytest-pinned/workflows/pinned/badge.svg)
 
-A simple [`pytest`](https://docs.pytest.org/en/latest/) plugin for writing pinning tests.
+A simple [`pytest`](https://docs.pytest.org/en/latest/) plugin for writing **pinning tests**.
 
 Pinning tests or snapshot tests or [characterization tests](https://en.wikipedia.org/wiki/Characterization_test) are meant to describe (characterize) the actual behavior of an existing piece of software, and therefore protect existing behavior against unintended changes via automated testing.
 
