@@ -7,18 +7,18 @@ import pytest
 EXPECTED_RESULTS = dict()
 
 def pytest_addoption(parser):
-    group = parser.getgroup("pinpoint")
+    group = parser.getgroup("pinned")
     
     group.addoption(
-        '--pinpoint-path',
+        '--pinned-path',
         dest='path',
         type=Path,
-        default=Path('pinpointed_results.json'),
+        default=Path('pinned_results.json'),
         help='Path to file where expected results will be stored' 
     )
     
     group.addoption(
-        '--pinpoint-update',
+        '--pinned-update',
         dest='update',
         action='store_true',
         default=False,
@@ -26,7 +26,7 @@ def pytest_addoption(parser):
     )
     
     group.addoption(
-        '--pinpoint-rewrite',
+        '--pinned-rewrite',
         dest='rewrite',
         action='store_true',
         default=False,
@@ -81,7 +81,7 @@ class ExpectedResult:
         except KeyError:
             pytest.fail(
                 'Node with nodeid: {} does not have a stored value to compare with!'
-                ' Please use --pinpoint-update or --pinpoint-rewrite first.'.format(key),
+                ' Please use --pinned-update or --pinned-rewrite first.'.format(key),
                 pytrace=False
                 )
 
@@ -111,7 +111,7 @@ class ExpectedResult:
         return 'Pinned({})'.format(expected)
 
 @pytest.fixture
-def pinpointed(request):
+def pinned(request):
     write = request.config.getoption('rewrite') \
         or request.config.getoption('update')
 

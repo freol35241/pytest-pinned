@@ -1,7 +1,7 @@
 # This workflow will install Python dependencies, run tests and lint with a variety of Python versions
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
-name: pinpoint
+name: pinned
 
 on:
   push:
@@ -31,4 +31,4 @@ jobs:
         pip install -e .
     - name: Test with pytest
       run: |
-        pytest test/ --pinpoint-path test/expected.json
+        pytest test/ --pinned-path test/expected.json

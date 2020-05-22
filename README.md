@@ -1,6 +1,6 @@
-pytest-pinpoint
+pytest-pinned
 ===============
-![](https://github.com/freol35241/pytest-pinpoint/workflows/pinpoint/badge.svg)
+![](https://github.com/freol35241/pytest-pinned/workflows/pinned/badge.svg)
 
 A simple [`pytest`](https://docs.pytest.org/en/latest/) plugin for writing pinning tests.
 
@@ -12,66 +12,66 @@ This type of testing can come in handy for several reasons:
 
 In my case, the main usecase is legacy and non-legacy codebases aimed for scientific computing. The implementation of, usually quite complex, scientific models are hard to test for specific behaviours, especially when they are used for research purposes. Pinning tests allow for more confident refactoring of the implementation of such models while tracing how results and predicitons changes.
 
-`pytest-pinpoint` keeps all expected results from pinning tests in a single `JSON` file resulting in only a single file needing to be added to the [VCS](https://en.wikipedia.org/wiki/Version_control) repository and diffs are also contained to this single file. The use of `JSON` for serialization of the expected results however imposes some restrictions on the datatypes that can be used, see the [JSON type conversion table](https://docs.python.org/3/library/json.html#py-to-json-table) from the standard library.
+`pytest-pinned` keeps all expected results from pinning tests in a single `JSON` file resulting in only a single file needing to be added to the [VCS](https://en.wikipedia.org/wiki/Version_control) repository and diffs are also contained to this single file. The use of `JSON` for serialization of the expected results however imposes some restrictions on the datatypes that can be used, see the [JSON type conversion table](https://docs.python.org/3/library/json.html#py-to-json-table) from the standard library.
 
 
 ### Requirements
 
-`pytest-pinpoint` has no external dependencies except for [`pytest`](https://docs.pytest.org/en/latest/) itself.
+`pytest-pinned` has no external dependencies except for [`pytest`](https://docs.pytest.org/en/latest/) itself.
 
 
 ### Installation
 
-You can install `pytest-pinpoint` via `pip` from `PyPI`:
+You can install `pytest-pinned` via `pip` from `PyPI`:
 
-    $ pip install pytest-pinpoint
+    $ pip install pytest-pinned
 
 
 ### Usage
 
-`pytest-pinpoint` expose a single pytest fixture (`pinpointed`). `pinpointed` will keep track of what test it is used in, supports usage with the standard `assert` statement and allows for multiple asserts in the same test.
+`pytest-pinned` expose a single pytest fixture (`pinned`). `pinned` will keep track of what test it is used in, supports usage with the standard `assert` statement and allows for multiple asserts in the same test.
 
 #### Syntax
 
 Simple pinning test sample:
 ```
-def test_simple(pinpointed):
-    assert(10.0 == pinpointed)
+def test_simple(pinned):
+    assert(10.0 == pinned)
 ```
 
-`pytest-pinpoint` also supports approximate comparisons using [`pytest.approx`](https://docs.pytest.org/en/latest/reference.html#pytest-approx). See last assert statement in example below for syntax. `pinpointed` accepts the same keyword arguments as `pytest.approx`.
+`pytest-pinned` also supports approximate comparisons using [`pytest.approx`](https://docs.pytest.org/en/latest/reference.html#pytest-approx). See last assert statement in example below for syntax. `pinned` accepts the same keyword arguments as `pytest.approx`.
 
 More elaborate example:
 ```
-def test_elaborate(pinpointed):
-    assert(10.0 == pinpointed)
-    assert([1,2,3] == pinpointed)
-    assert({'a': 1, 'b': 2} == pinpointed)
-    assert(5.2983746239134 == pinpointed(rel=0.00001, abs=0.001))
+def test_elaborate(pinned):
+    assert(10.0 == pinned)
+    assert([1,2,3] == pinned)
+    assert({'a': 1, 'b': 2} == pinned)
+    assert(5.2983746239134 == pinned(rel=0.00001, abs=0.001))
 ```
 #### Expected results
 
-If `pytest-pinpoint` cannot find any expected results for a comparison it will fail the test and ask teh user to write new expected results.
+If `pytest-pinned` cannot find any expected results for a comparison it will fail the test and ask teh user to write new expected results.
 
 To rewrite the expected results "from scratch", use:
 
-    $ pytest --pinpoint-rewrite
+    $ pytest --pinned-rewrite
 
 To update the expected results for only some tests, use:
 
-    $ pytest tests/sample_test.py::specific_test --pinpoint-update
+    $ pytest tests/sample_test.py::specific_test --pinned-update
 
-To change the path where `pytest-pinpoint` stores (and loads) the expected results, use:
+To change the path where `pytest-pinned` stores (and loads) the expected results, use:
 
-    $ pytest --pinpoint-path path/to/expected/results.json
+    $ pytest --pinned-path path/to/expected/results.json
 
 ### License
 
-Distributed under the terms of the `MIT` license, `pytest-pinpoint` is free and open source software
+Distributed under the terms of the `MIT` license, `pytest-pinned` is free and open source software
 
 ### Issues
 
-If you encounter any problems, please [`file an issue`](https://github.com/freol35241/pytest-pinpoint/issues) along with a detailed description.
+If you encounter any problems, please [`file an issue`](https://github.com/freol35241/pytest-pinned/issues) along with a detailed description.
 
 ### Contributing
 

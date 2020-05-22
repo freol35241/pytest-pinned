@@ -15,14 +15,14 @@ with open('requirements.txt') as f:
     required = f.read().splitlines()
 
 setup(
-    name='pytest-pinpoint',
+    name='pytest-pinned',
     version='0.1.0',
     author='Fredrik Olsson',
     author_email='freol@outlook.com',
     maintainer='Fredrik Olsson',
     maintainer_email='freol@outlook.com',
     license='MIT',
-    url='https://github.com/freol35241/pytest-pinpoint',
+    url='https://github.com/freol35241/pytest-pinned',
     description='A simple pytest plugin for pinning tests',
     long_description=read('README.md'),
     py_modules=['pytest_pinpoint'],
@@ -41,7 +41,7 @@ setup(
     ],
     entry_points={
         'pytest11': [
-            'pinpoint = pytest_pinpoint',
+            'pinned = pytest_pinned',
         ],
     },
 )
