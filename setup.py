@@ -16,7 +16,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='pytest-pinned',
-    version='0.1.1',
+    version='0.1.0',
     author='Fredrik Olsson',
     author_email='freol@outlook.com',
     maintainer='Fredrik Olsson',
@@ -25,6 +25,7 @@ setup(
     url='https://github.com/freol35241/pytest-pinned',
     description='A simple pytest plugin for pinning tests',
     long_description=read('README.md'),
+    long_description_content_type="text/markdown",
     py_modules=['pytest_pinpoint'],
     python_requires='>=3.5',
     install_requires=required,
