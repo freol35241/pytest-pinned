@@ -26,7 +26,7 @@ setup(
     description='A simple pytest plugin for pinning tests',
     long_description=read('README.md'),
     long_description_content_type="text/markdown",
-    py_modules=['pytest_pinpoint'],
+    py_modules=['pytest_pinned'],
     python_requires='>=3.5',
     install_requires=required,
     classifiers=[
