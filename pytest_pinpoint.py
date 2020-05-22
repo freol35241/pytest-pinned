@@ -39,14 +39,14 @@ def pytest_configure(config):
     rewrite = config.getoption('rewrite')
 
     if path.exists() and not rewrite:
-        with open(path, 'r') as f:
+        with path.open('r') as f:
             EXPECTED_RESULTS = json.load(f)
 
 def pytest_unconfigure(config):
     path = config.getoption('path')
 
     if EXPECTED_RESULTS:
-        with open(path, 'w') as f:
+        with path.open('w') as f:
             json.dump(EXPECTED_RESULTS, f, indent=4, sort_keys=True)
 
 class ExpectedResult:
