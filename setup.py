@@ -16,7 +16,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='pytest-pinned',
-    version='0.1.0',
+    version='0.1.1',
     author='Fredrik Olsson',
     author_email='freol@outlook.com',
     maintainer='Fredrik Olsson',
