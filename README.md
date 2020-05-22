@@ -26,22 +26,52 @@ You can install `pytest-pinpoint` via `pip` from `PyPI`:
     $ pip install pytest-pinpoint
 
 
-Usage
------
+### Usage
 
-* TODO
+`pytest-pinpoint` expose a single pytest fixture (`pinpointed`). `pinpointed` will keep track of what test it is used in, supports usage with the standard `assert` statement and allows for multiple asserts in the same test.
 
-Contributing
-------------
-Contributions are very welcome.
+#### Syntax
 
-License
--------
+Simple pinning test sample:
+```
+def test_simple(pinpointed):
+    assert(10.0 == pinpointed)
+```
+
+`pytest-pinpoint` also supports approximate comparisons using [`pytest.approx`](https://docs.pytest.org/en/latest/reference.html#pytest-approx). See last assert statement in example below for syntax. `pinpointed` accepts the same keyword arguments as `pytest.approx`.
+
+More elaborate example:
+```
+def test_elaborate(pinpointed):
+    assert(10.0 == pinpointed)
+    assert([1,2,3] == pinpointed)
+    assert({'a': 1, 'b': 2} == pinpointed)
+    assert(5.2983746239134 == pinpointed(rel=0.00001, abs=0.001))
+```
+#### Expected results
+
+If `pytest-pinpoint` cannot find any expected results for a comparison it will fail the test and ask teh user to write new expected results.
+
+To rewrite the expected results "from scratch", use:
+
+    $ pytest --pinpoint-rewrite
+
+To update the expected results for only some tests, use:
+
+    $ pytest tests/sample_test.py::specific_test --pinpoint-update
+
+To change the path where `pytest-pinpoint` stores (and loads) the expected results, use:
+
+    $ pytest --pinpoint-path path/to/expected/results.json
+
+### License
 
 Distributed under the terms of the `MIT` license, `pytest-pinpoint` is free and open source software
 
+### Issues
 
-Issues
-------
+If you encounter any problems, please [`file an issue`](https://github.com/freol35241/pytest-pinpoint/issues) along with a detailed description.
 
-If you encounter any problems, please `file an issue` along with a detailed description.
+### Contributing
+
+Contributions are very welcome.
