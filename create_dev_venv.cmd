@@ -9,6 +9,7 @@ CALL venv\Scripts\activate.bat
 ECHO Installing packages
 
 pip install -r requirements.txt
+pip install -r requirements_dev.txt
 
 ECHO setting up local development environment
 
