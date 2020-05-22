@@ -20,7 +20,7 @@ setup(
     maintainer_email='freol@outlook.com',
     license='MIT',
     url='https://github.com/freol35241/pytest-pinpoint',
-    description='A plugin for pinning tests',
+    description='A simple pytest plugin for pinning tests',
     long_description=read('README.md'),
     py_modules=['pytest_pinpoint'],
     python_requires='>=3.5',
