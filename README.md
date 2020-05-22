@@ -1,5 +1,6 @@
 pytest-pinpoint
 ===============
+![](https://github.com/freol35241/pytest-pinpoint/workflows/pinpoint/badge.svg)
 
 A simple [`pytest`](https://docs.pytest.org/en/latest/) plugin for writing pinning tests.
 
