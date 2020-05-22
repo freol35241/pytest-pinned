@@ -10,6 +10,9 @@ def read(fname):
     file_path = os.path.join(os.path.dirname(__file__), fname)
     return codecs.open(file_path, encoding='utf-8').read()
 
+# Parse the requirements-txt file and use for install_requires in pip
+with open('requirements.txt') as f:
+    required = f.read().splitlines()
 
 setup(
     name='pytest-pinpoint',
@@ -24,7 +27,7 @@ setup(
     long_description=read('README.md'),
     py_modules=['pytest_pinpoint'],
     python_requires='>=3.5',
-    install_requires=['pytest>=3.5.0'],
+    install_requires=required,
     classifiers=[
         'Development Status :: 4 - Beta',
         'Framework :: Pytest',
