@@ -12,7 +12,7 @@ This type of testing can come in handy for several reasons:
 * Scientific computing where implementation of, usually quite complex, scientific models are hard to test for specific behaviours, especially when they are used for research purposes. 
 * As extra confidence boosters during refactoring. 
 
-`pytest-pinned` keeps all expected results from pinning tests in a single, pretty-printed `JSON` file resulting in only a single file needing to be added to the [VCS](https://en.wikipedia.org/wiki/Version_control) repository and diffs are also contained to this single file. The use of `JSON` for serialization of the expected results however imposes some restrictions on the datatypes that can be used, see the [JSON type conversion table](https://docs.python.org/3/library/json.html#py-to-json-table) from the standard library.
+`pytest-pinned` keeps all expected results from pinning tests in a single, pretty-printed `JSON` file resulting in only a single file needing to be added to the [VCS](https://en.wikipedia.org/wiki/Version_control) repository and diffs are also contained to this single file. The use of `JSON` for serialization of the expected results however imposes some restrictions on the datatypes that can be used, see the [JSON type conversion table](https://docs.python.org/3/library/json.html#py-to-json-table) from the standard library. In addition, however, `pytest-pinned>=0.2.0` natively supports `numpy` arrays!
 
 
 ### Requirements
