@@ -48,8 +48,20 @@ def pytest_unconfigure(config):
     if EXPECTED_RESULTS:
         with path.open('w') as f:
             json.dump(EXPECTED_RESULTS, f, indent=4, sort_keys=True)
+            
+def _is_numpy_array(obj):
+    import sys
+    np = sys.modules.get("numpy")
+    if np:
+        return isinstance(obj, np.ndarray)
+    return False
 
 class ExpectedResult:
+    
+    # Tell numpy to use our `__eq__` operator instead of its.
+    
+    __array_ufunc__ = None
+    __array_priority__ = 100
 
     def __init__(self, expected, node, write):
         self._expected = expected
@@ -88,21 +100,27 @@ class ExpectedResult:
     def __eq__(self, other):
         key = self._get_next_key()
         
+        # Special treatment of numpy arrays
+        import sys
+        np = sys.modules.get("numpy")
+        array = np and isinstance(other, np.ndarray)
+        
         if self._write:
-            self._expected[key] = other
-            return True
+            self._expected[key] = other if not array else other.tolist()
         
         expected = self._get_expected(key)
         res = self._compare_func(expected, other)
+        
+        res = np.all(res) if array else res
         
         self._reset_compare_func()
         
         return res
     
-    def __call__(self, *args, **kwargs):
-        def approx_wrapper(expected, value):
+    def __call__(self, *args, **kwargs):        
+        def wrapper(expected, value):
             return eq(expected, pytest.approx(value, *args, **kwargs))
-        self._compare_func = approx_wrapper
+        self._compare_func = wrapper
         return self
     
     def __repr__(self):

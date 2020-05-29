@@ -1,5 +1,6 @@
 import pytest
 import json
+import numpy as np
 
 def test_passing_with_pinned_results(testdir):
     """Testing that we fail tests prior to having any 
@@ -9,6 +10,7 @@ def test_passing_with_pinned_results(testdir):
     # create a temporary pytest test file
     testdir.makepyfile(
         """
+        
         def test_str(pinned):
             assert pinned == "Hello World!"
             
@@ -17,6 +19,11 @@ def test_passing_with_pinned_results(testdir):
             
         def test_list(pinned):
             assert [[1,2,3]] == pinned
+            
+        def test_array(pinned):
+            import sys
+            np = sys.modules.get('numpy')
+            assert np.ones((5,7)) == pinned
             
         def test_dict(pinned):
             assert {'a': 1, 'b': 2, 'c': 3} == pinned
@@ -32,11 +39,11 @@ def test_passing_with_pinned_results(testdir):
     
     # Collect expected results
     result = testdir.runpytest('--pinned-rewrite')
-    result.assert_outcomes(passed=5)
+    result.assert_outcomes(passed=6)
     
     # Test again, this time ot should pass
     result = testdir.runpytest()
-    result.assert_outcomes(passed=5)
+    result.assert_outcomes(passed=6)
     
 def test_failing_with_pinned_results(testdir):
     """Testing that we fail tests prior to having any 
