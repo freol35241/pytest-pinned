@@ -1,6 +1,6 @@
 pytest-pinned
 ===============
-[![PyPI version](https://badge.fury.io/py/pytest-pinned.svg)](https://badge.fury.io/py/pytest-pinned)
+[![PyPI version shields.io](https://img.shields.io/pypi/v/pytest-pinned.svg)](https://pypi.python.org/pypi/pytest-pinned/)
 ![pinned](https://github.com/freol35241/pytest-pinned/workflows/pinned/badge.svg)
 
 A simple [`pytest`](https://docs.pytest.org/en/latest/) plugin for writing **pinning tests**.
