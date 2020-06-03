@@ -48,7 +48,7 @@ def test_elaborate(pinned):
     assert(10.0 == pinned)
     assert([1,2,3] == pinned)
     assert({'a': 1, 'b': 2} == pinned)
-    assert(5.2983746239134 == pinned(rel=0.00001, abs=0.001))
+    assert(5.2983746239134 == pinned.approx(rel=0.00001, abs=0.001))
 ```
 #### Expected results
 

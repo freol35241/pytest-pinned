@@ -117,7 +117,7 @@ class ExpectedResult:
         
         return res
     
-    def __call__(self, *args, **kwargs):        
+    def approx(self, *args, **kwargs):        
         def wrapper(expected, value):
             return eq(expected, pytest.approx(value, *args, **kwargs))
         self._compare_func = wrapper

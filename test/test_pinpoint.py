@@ -20,11 +20,6 @@ def test_passing_with_pinned_results(testdir):
         def test_list(pinned):
             assert [[1,2,3]] == pinned
             
-        def test_array(pinned):
-            import sys
-            np = sys.modules.get('numpy')
-            assert np.ones((5,7)) == pinned
-            
         def test_dict(pinned):
             assert {'a': 1, 'b': 2, 'c': 3} == pinned
             
@@ -39,11 +34,11 @@ def test_passing_with_pinned_results(testdir):
     
     # Collect expected results
     result = testdir.runpytest('--pinned-rewrite')
-    result.assert_outcomes(passed=6)
+    result.assert_outcomes(passed=5)
     
     # Test again, this time ot should pass
     result = testdir.runpytest()
-    result.assert_outcomes(passed=6)
+    result.assert_outcomes(passed=5)
     
 def test_failing_with_pinned_results(testdir):
     """Testing that we fail tests prior to having any 
@@ -86,13 +81,13 @@ def test_approx_passing_with_pinned_results(testdir):
         from random import random
             
         def test_scalar(pinned):
-            assert random() == pinned(abs=1)
+            assert random() == pinned.approx(abs=1)
             
         def test_list(pinned):
-            assert [random(), random(), random()] == pinned(abs=1)
+            assert [random(), random(), random()] == pinned.approx(abs=1)
             
         def test_dict(pinned):
-            assert {'a': random(), 'b': random(), 'c': random()} == pinned(abs=1)
+            assert {'a': random(), 'b': random(), 'c': random()} == pinned.approx(abs=1)
 
     """
     )
@@ -104,3 +99,33 @@ def test_approx_passing_with_pinned_results(testdir):
     # Test again, using the pinned results, should still fail!
     result = testdir.runpytest()
     result.assert_outcomes(passed=3)
+    
+def test_numpy_combos(testdir):
+    """Testing that we fail tests prior to having any 
+    expected results to compare with.
+    """
+
+    # create a temporary pytest test file
+    testdir.makepyfile(
+        """
+        def test_array(pinned):
+            import sys
+            np = sys.modules.get('numpy')
+            assert np.ones((5,7)) == pinned
+            
+        def test_multiple_asserts(pinned):
+            import sys
+            np = sys.modules.get('numpy')
+            assert (np.ones((4, 4)) == np.ones((4, 4))).all()
+            assert np.ones((5,7)) == pinned.approx()
+
+    """
+    )
+
+    # Collect expected results
+    result = testdir.runpytest('--pinned-rewrite')
+    result.assert_outcomes(passed=2)
+    
+    # Test again, using the pinned results, should still fail!
+    result = testdir.runpytest()
+    result.assert_outcomes(passed=2)
