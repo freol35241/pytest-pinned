@@ -37,7 +37,7 @@ You can install `pytest-pinned` via `pip` from `PyPI`:
 #### Syntax
 
 Simple pinning test sample:
-```
+```python
 def test_simple(pinned):
     assert(10.0 == pinned)
 ```
@@ -45,7 +45,7 @@ def test_simple(pinned):
 `pytest-pinned` also supports approximate comparisons using [`pytest.approx`](https://docs.pytest.org/en/latest/reference.html#pytest-approx). See last assert statement in example below for syntax. `pinned` accepts the same keyword arguments as `pytest.approx`.
 
 More elaborate example:
-```
+```python
 def test_elaborate(pinned):
     assert(10.0 == pinned)
     assert([1,2,3] == pinned)
