@@ -81,7 +81,9 @@ class ExpectedResult:
         return key
         
     def _get_current_key(self):
-        return self._assemble_key(self._idx)
+        if self._idx:
+            return self._assemble_key(self._idx)
+        return False
 
     def _get_next_key(self):
         self._idx += 1
@@ -125,6 +127,10 @@ class ExpectedResult:
     
     def __repr__(self):
         key = self._get_current_key()
+        if not key:
+            # This needs to be handled since pytest apparently calls __repr__ on this
+            # object even if an earlier assert statement failed
+            return "The pinned fixture was not used yet in this test."
         expected = self._get_expected(key)
         return 'Pinned({})'.format(expected)
 
