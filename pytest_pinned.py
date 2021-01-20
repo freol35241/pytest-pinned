@@ -1,10 +1,12 @@
 import json
 from pathlib import Path
 from operator import eq
+from difflib import Differ
 
 import pytest
 
 EXPECTED_RESULTS = dict()
+DIFFER = Differ()
 
 def pytest_addoption(parser):
     group = parser.getgroup("pinned")
@@ -49,12 +51,17 @@ def pytest_unconfigure(config):
         with path.open('w') as f:
             json.dump(EXPECTED_RESULTS, f, indent=4, sort_keys=True)
             
-def _is_numpy_array(obj):
+def is_ndarray(obj):
     import sys
     np = sys.modules.get("numpy")
-    if np:
-        return isinstance(obj, np.ndarray)
-    return False
+    
+    return np and isinstance(obj, np.ndarray)
+
+def un_numpify(obj):
+    if is_ndarray(obj):
+        return obj.tolist()
+    
+    return obj
 
 class ExpectedResult:
     
@@ -102,18 +109,14 @@ class ExpectedResult:
     def __eq__(self, other):
         key = self._get_next_key()
         
-        # Special treatment of numpy arrays
-        import sys
-        np = sys.modules.get("numpy")
-        array = np and isinstance(other, np.ndarray)
-        
         if self._write:
-            self._expected[key] = other if not array else other.tolist()
+            self._expected[key] = un_numpify(other)
         
         expected = self._get_expected(key)
         res = self._compare_func(expected, other)
         
-        res = np.all(res) if array else res
+        if is_ndarray(res):
+            res = res.all()
         
         self._reset_compare_func()
         
@@ -126,13 +129,8 @@ class ExpectedResult:
         return self
     
     def __repr__(self):
-        key = self._get_current_key()
-        if not key:
-            # This needs to be handled since pytest apparently calls __repr__ on this
-            # object even if an earlier assert statement failed
-            return "The pinned fixture was not used yet in this test."
-        expected = self._get_expected(key)
-        return 'Pinned({})'.format(expected)
+        return f"Pinned({self._node.nodeid})"
+
 
 @pytest.fixture
 def pinned(request):
@@ -143,3 +141,23 @@ def pinned(request):
         EXPECTED_RESULTS,
         request.node,
         write)
+    
+def pytest_assertrepr_compare(config, op, left, right):
+    if op != "==":
+        return
+    
+    if isinstance(left, ExpectedResult):
+        expected = left._get_expected(left._get_current_key())
+        actual = un_numpify(right)
+    elif isinstance(right, ExpectedResult):
+        expected = right._get_expected(right._get_current_key())
+        actual = un_numpify(left)
+    else:
+        return None
+    
+    expected = json.dumps(expected, indent=4, sort_keys=True).splitlines()
+    actual = json.dumps(actual, indent=4, sort_keys=True).splitlines()
+    
+    diff = list(DIFFER.compare(expected, actual))
+    diff.insert(0, "Expected --> Actual")
+    return diff
