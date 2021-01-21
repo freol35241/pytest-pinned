@@ -128,7 +128,7 @@ class ExpectedResult:
         return self
     
     def __repr__(self):
-        return f"Pinned({self._node.nodeid})"
+        return "Pinned({})".format(self._node.nodeid)
 
 
 @pytest.fixture
