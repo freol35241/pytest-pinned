@@ -1,12 +1,11 @@
 import json
 from pathlib import Path
 from operator import eq
-from difflib import Differ
+from difflib import unified_diff
 
 import pytest
 
 EXPECTED_RESULTS = dict()
-DIFFER = Differ()
 
 def pytest_addoption(parser):
     group = parser.getgroup("pinned")
@@ -158,6 +157,6 @@ def pytest_assertrepr_compare(config, op, left, right):
     expected = json.dumps(expected, indent=4, sort_keys=True).splitlines()
     actual = json.dumps(actual, indent=4, sort_keys=True).splitlines()
     
-    diff = list(DIFFER.compare(expected, actual))
+    diff = list(unified_diff(expected, actual))
     diff.insert(0, "Expected --> Actual")
     return diff
