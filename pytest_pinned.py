@@ -1,7 +1,7 @@
 import json
+import difflib
 from pathlib import Path
 from operator import eq
-from difflib import unified_diff
 
 import pytest
 
@@ -157,6 +157,6 @@ def pytest_assertrepr_compare(config, op, left, right):
     expected = json.dumps(expected, indent=4, sort_keys=True).splitlines()
     actual = json.dumps(actual, indent=4, sort_keys=True).splitlines()
     
-    diff = list(unified_diff(expected, actual))
-    diff.insert(0, "Expected --> Actual")
+    diff = list(difflib.unified_diff(expected, actual, fromfile="Expected", tofile="Actual", lineterm=""))
+    diff.insert(0, "")
     return diff
