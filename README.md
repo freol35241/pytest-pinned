@@ -54,7 +54,7 @@ def test_elaborate(pinned):
 ```
 #### Expected results
 
-If `pytest-pinned` cannot find any expected results for a comparison it will fail the test and ask teh user to write new expected results.
+If `pytest-pinned` cannot find any expected results for a comparison it will fail the test and ask the user to write new expected results.
 
 To rewrite the expected results "from scratch", use:
 

@@ -226,7 +226,7 @@ def test_stdout_when_other_assert_fails_first(testdir):
     # Collect expected results
     result = testdir.runpytest()
     result.assert_outcomes(failed=1)
-    assert "The pinned fixture was not used yet in this test." in result.stdout.str()
+    assert "pinned = Pinned(test_stdout_when_other_assert_fails_first.py::test_str)" in result.stdout.str()
     
 def test_stdout_when_other_assert_fails_second(testdir):
     """Related to issue #7, we need to inform the user that it wasnt our fault!
@@ -260,4 +260,4 @@ def test_stdout_when_other_assert_fails_second(testdir):
     # Collect expected results
     result = testdir.runpytest()
     result.assert_outcomes(failed=1)
-    assert "pinned = Pinned(Hello World!)" in result.stdout.str()
+    assert "pinned = Pinned(test_stdout_when_other_assert_fails_second.py::test_str)" in result.stdout.str()
