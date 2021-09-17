@@ -45,8 +45,9 @@ def pytest_configure(config):
 
 def pytest_unconfigure(config):
     path = config.getoption('path')
+    write = config.getoption('rewrite') or config.getoption('update')
 
-    if EXPECTED_RESULTS:
+    if EXPECTED_RESULTS and write:
         with path.open('w') as f:
             json.dump(EXPECTED_RESULTS, f, indent=4, sort_keys=True)
             
